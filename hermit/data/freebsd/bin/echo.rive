@@ -1,0 +1,6 @@
++ echo *
+- <set text=<star>><call>echo</call>
+
+> object echo sh
+	echo "${text:?}"
+< object

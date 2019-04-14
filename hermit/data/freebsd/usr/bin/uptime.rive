@@ -1,0 +1,13 @@
++ uptime
+- <call>uptime_raw</call>
+
++ how long (have|has) (you|it) been (up|running|online)
+- <call>uptime</call>
+
+> object uptime sh
+	uptime | awk '{print $3" "$4" "$5" hours"}' | sed -e 's/,//g'
+< object
+
+> object uptime_raw sh
+	uptime
+< object
