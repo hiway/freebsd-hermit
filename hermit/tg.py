@@ -52,14 +52,8 @@ client = TelegramClient(BOT_NAME, api_id, api_hash)
 hermit = HermitBot(data_dir, debug=False)
 
 
-def sig_handler(signum, frame):
-    client.send_message(BOT_OWNER, 'Encountered error, shutting down. ```%s```' % traceback.format_exc())
-    client.disconnect()
-    loop.stop()
-
-
 def exit_on_signal(signal_name):
-    client.send_message(BOT_OWNER, 'Encountered error, shutting down. ```%s```' % traceback.format_exc())
+    client.send_message(BOT_OWNER, 'I am going offline.')
     client.disconnect()
     loop.stop()
 
