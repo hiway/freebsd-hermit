@@ -53,7 +53,8 @@ hermit = HermitBot(data_dir, debug=False)
 
 
 def exit_on_signal(signal_name):
-    client.send_message(BOT_OWNER, 'I am going offline.')
+    print("Exiting on signal:", signal_name)
+    client.send_message(BOT_OWNER, 'I am going offline due to signal: ' + signal_name)
     client.disconnect()
     loop.stop()
 
