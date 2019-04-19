@@ -42,6 +42,7 @@ class ShellObject(object):
         if not name in self._objects:
             return "[ERR: Object Not Found]"
         script = b'# User Variables\n'
+        script += b'PATH=/usr/sbin:/usr/local/sbin:/usr/bin:/usr/local/bin\n'
         vars = rs.get_uservars(user)
         for key, value in vars.items():
             if type(value) != str:
