@@ -66,7 +66,7 @@ def stop_on_error(func):
 @stop_on_error
 async def reload_handler(event):
     if event.from_id != BOT_OWNER_ID:
-        print (f"Ignoring chat from {event.from_id}.")
+        print(f"Ignoring chat from {event.from_id}.")
         return
     hermit.reload()
     await event.respond('Reloaded.')
@@ -76,7 +76,7 @@ async def reload_handler(event):
 @stop_on_error
 async def handler(event):
     if event.from_id != BOT_OWNER_ID:
-        print (f"Ignoring chat from {event.from_id}.")
+        print(f"Ignoring chat from {event.from_id}.")
         return
     elif event.raw_text == 'reload':
         return
