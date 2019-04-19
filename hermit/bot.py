@@ -20,7 +20,7 @@ class ShellObject(object):
         tmp.write(source.encode('utf-8'))
         tmp.flush()
         # shellcheck tmp file
-        proc = Popen(["shellcheck", tmp.name], stdout=PIPE)
+        proc = Popen(["/usr/local/bin/shellcheck", tmp.name], stdout=PIPE)
         result = proc.stdout.read().decode('utf-8')
         tmp.close()
         if result.strip():
