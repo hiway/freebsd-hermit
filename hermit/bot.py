@@ -57,7 +57,10 @@ class ShellObject(object):
             proc.stdin.write(script)
             proc.stdin.close()
             result = proc.stdout.read().decode('utf-8')
-            error = proc.stderr.read().decode('utf-8')
+            if proc.stderr:
+                error = proc.stderr.read().decode('utf-8')
+            else:
+                error = ''
             if not error.strip():
                 return result.strip()
             else:
