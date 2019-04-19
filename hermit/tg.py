@@ -1,5 +1,6 @@
 import asyncio
 import os
+import signal
 import traceback
 
 from telethon import TelegramClient, events, sync
@@ -34,7 +35,6 @@ class ShellObject:
         result = proc.stdout.read().decode('utf-8')
         return result
 
-
 APP_TOKEN = os.environ['TELEGRAM_APP_TOKEN']
 BOT_TOKEN = os.environ['TELEGRAM_BOT_TOKEN']
 BOT_OWNER = os.environ['TELEGRAM_BOT_OWNER']
@@ -48,6 +48,12 @@ loop = asyncio.get_event_loop()
 client = TelegramClient(BOT_NAME, api_id, api_hash)
 
 hermit = HermitBot(data_dir, debug=False)
+
+
+def sig_handler(signum, frame):
+    client.send_message(BOT_OWNER, 'Encountered error, shutting down. ```%s```' % traceback.format_exc())
+    client.disconnect()
+    loop.stop()
 
 
 def stop_on_error(func):
@@ -86,8 +92,13 @@ async def handler(event):
     else:
         await event.respond('Received empty response.')
 
+
 def main():
     try:
+        signal.signal(signal.SIGHUP, sig_handler)
+        signal.signal(signal.SIGINT, sig_handler)
+        signal.signal(signal.SIGTERM, sig_handler)
+
         client.connect()
         if not client.is_user_authorized():
             client.sign_in(bot_token=BOT_TOKEN)
