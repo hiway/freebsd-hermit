@@ -1,4 +1,6 @@
+import re
 import textwrap
+
 from rivescript import RiveScript
 from subprocess import Popen, PIPE
 from tempfile import NamedTemporaryFile
@@ -66,7 +68,8 @@ class HermitBot(object):
         self.reload()
 
     def reload(self):
-        self._bot = RiveScript()
+        self._bot = RiveScript(utf8=True)
+        self._bot.unicode_punctuation = re.compile(r'[.!?;:]')
         self._bot.set_handler("sh", ShellObject(debug=self._debug))
         self._bot.load_directory(self._data_path)
         self._bot.sort_replies()
