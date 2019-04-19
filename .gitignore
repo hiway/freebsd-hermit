@@ -102,3 +102,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+maya/
+tg.sh
+telegram.sh
+deploy.sh
+syncdata.sh
+run.sh
+maya.ini
+*.session

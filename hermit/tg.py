@@ -81,8 +81,10 @@ async def handler(event):
     elif event.raw_text == 'reload':
         return
     reply = hermit.reply(event.raw_text)
-    await event.respond(reply)
-
+    if reply:
+        await event.respond(reply)
+    else:
+        await event.respond('Received empty response.')
 
 def main():
     try:
