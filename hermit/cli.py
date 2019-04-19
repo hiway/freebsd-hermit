@@ -46,5 +46,12 @@ def telegram(debug):
     main()
 
 
+@main.command()
+@click.option('--debug/--no-debug', is_flag=True, default=False)
+def tg(debug):
+    from .tg import main
+    main()
+
+
 # if __name__ == '__main__':
 #     main()

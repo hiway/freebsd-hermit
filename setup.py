@@ -12,6 +12,7 @@ setup(
         'click==7.0',
         'aiogram==2.0.1',
         'rivescript==1.14.9',
+        'telethon==1.6.2',
     ],
 
     entry_points='''
