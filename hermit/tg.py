@@ -1,4 +1,5 @@
 import asyncio
+import functools
 import os
 import signal
 import traceback
@@ -35,6 +36,7 @@ class ShellObject:
         result = proc.stdout.read().decode('utf-8')
         return result
 
+
 APP_TOKEN = os.environ['TELEGRAM_APP_TOKEN']
 BOT_TOKEN = os.environ['TELEGRAM_BOT_TOKEN']
 BOT_OWNER = os.environ['TELEGRAM_BOT_OWNER']
@@ -51,6 +53,12 @@ hermit = HermitBot(data_dir, debug=False)
 
 
 def sig_handler(signum, frame):
+    client.send_message(BOT_OWNER, 'Encountered error, shutting down. ```%s```' % traceback.format_exc())
+    client.disconnect()
+    loop.stop()
+
+
+def exit_on_signal(signal_name):
     client.send_message(BOT_OWNER, 'Encountered error, shutting down. ```%s```' % traceback.format_exc())
     client.disconnect()
     loop.stop()
@@ -95,10 +103,9 @@ async def handler(event):
 
 def main():
     try:
-        signal.signal(signal.SIGHUP, sig_handler)
-        signal.signal(signal.SIGINT, sig_handler)
-        signal.signal(signal.SIGTERM, sig_handler)
-
+        for signame in ('SIGINT', 'SIGTERM'):
+            loop.add_signal_handler(getattr(signal, signame),
+                                    functools.partial(exit_on_signal, signame))
         client.connect()
         if not client.is_user_authorized():
             client.sign_in(bot_token=BOT_TOKEN)
